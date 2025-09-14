@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Magical Birthday Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-light: #FFC0CB;
+            --purple-light: #D1B3FF;
+            --golden-light: #FFD700;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: black;
+            overflow: hidden;
+            color: white;
+            transition: background-color 2s ease-in-out;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- Scene 1: Opening Effect --- */
+        .stars-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 5px 5px;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .glowing-text {
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--pink-light); }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--pink-light); }
+        }
+
+        /* --- Scene 2: Welcome Animation --- */
+        @keyframes background-shift {
+            0% { background-color: var(--pink-light); }
+            33% { background-color: var(--purple-light); }
+            66% { background-color: var(--golden-light); }
+            100% { background-color: var(--pink-light); }
+        }
+        
+        .welcome-bg {
+             animation: background-shift 15s infinite ease-in-out;
+        }
+        
+        .typing-text span {
+            display: inline-block;
+            opacity: 0;
+            animation: fade-in-typing 0.5s forwards;
+        }
+        
+        @keyframes fade-in-typing {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Scene 3: Photo & Memory Section --- */
+        .heart-photo-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .heart-photo {
+            width: 120px;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s, filter 0.3s;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .heart-photo:hover {
+            transform: scale(1.1);
+            border-color: #FF69B4;
+            box-shadow: 0 0 25px #FF69B4;
+        }
+        
+        .photo-caption {
+            opacity: 0;
+            transition: opacity 0.3s;
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .heart-photo:hover .photo-caption {
+            opacity: 1;
+        }
+        
+        /* --- Scene 4: Birthday Message Section --- */
+        .bounce-text {
+            animation: bounce-in 1s ease-out forwards;
+        }
+
+        @keyframes bounce-in {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .balloons-container {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+        .balloon {
+            width: 30px;
+            height: 40px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+            position: absolute;
+            animation: float 10s infinite ease-in;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(-500px) scale(1.5);
+                opacity: 1;
+            }
+        }
+        .balloon:nth-child(2n) { animation-delay: 1.5s; left: 20%; background-color: #9370db; }
+        .balloon:nth-child(3n) { animation-delay: 2.5s; left: 40%; background-color: #ffd700; }
+        .balloon:nth-child(4n) { animation-delay: 3s; left: 60%; background-color: #ffc0cb; }
+        .balloon:nth-child(5n) { animation-delay: 4s; left: 80%; background-color: #d1b3ff; }
+        
+        /* --- Scene 5: Surprise Animation Section --- */
+        .gift-box {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            animation: shake 1.5s infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            20%, 60% { transform: rotate(-5deg); }
+            40%, 80% { transform: rotate(5deg); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+            transform-origin: center;
+        }
+        
+        /* --- Scene 6: Final Scene --- */
+        .final-moon {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #f7f7e8;
+            box-shadow: 0 0 20px #fff, 0 0 50px #fff, 0 0 80px #FFD700;
+            animation: moon-glow 4s infinite alternate;
+        }
+        
+        @keyframes moon-glow {
+            from { box-shadow: 0 0 20px #fff, 0 0 50px #fff, 0 0 80px #FFD700; }
+            to { box-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 100px #FFD700; }
+        }
+        
+        .firefly {
+            width: 5px;
+            height: 5px;
+            background-color: #FFFF99;
+            box-shadow: 0 0 5px #FFFF99, 0 0 10px #FFFF99;
+            border-radius: 50%;
+            position: absolute;
+            animation: fly-and-glow 10s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes fly-and-glow {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(calc(var(--rand-x) * 1px), calc(var(--rand-y) * 1px));
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-hidden">
+    <audio id="background-music" loop>
+        <!-- You can replace this with your own music file URL -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scene 1: Landing Page -->
+    <div id="scene-1" class="scene active">
+        <div class="stars-background"></div>
+        <h1 id="landing-text" class="text-4xl md:text-5xl font-bold transition-opacity duration-1000">Hey [Her Name], today is special...</h1>
+        <button id="start-button" class="mt-8 px-6 py-3 bg-white text-black font-bold text-lg rounded-full opacity-0 transition-opacity duration-500">Click to Begin ✨</button>
+    </div>
+
+    <!-- Scene 2: Welcome Animation -->
+    <div id="scene-2" class="scene welcome-bg transition-all duration-1000">
+        <h1 id="typing-text" class="text-5xl md:text-7xl font-bold tracking-widest"></h1>
+        <button id="next-button-2" class="mt-16 px-6 py-3 bg-white text-black font-bold text-lg rounded-full opacity-0 transition-opacity duration-500">Next →</button>
+    </div>
+
+    <!-- Scene 3: Photo & Memory Section -->
+    <div id="scene-3" class="scene bg-pink-300 bg-opacity-30">
+        <div class="heart-photo-container"></div>
+        <button id="next-button-3" class="mt-16 px-6 py-3 bg-white text-black font-bold text-lg rounded-full opacity-0 transition-opacity duration-500">See More Magic →</button>
+    </div>
+
+    <!-- Scene 4: Birthday Message Section -->
+    <div id="scene-4" class="scene bg-gradient-to-r from-purple-500 to-pink-500 relative">
+        <canvas id="fireworks-canvas" class="absolute inset-0 w-full h-full z-0"></canvas>
+        <div class="z-10 flex flex-col items-center">
+            <h1 id="bday-message" class="text-4xl md:text-6xl font-extrabold bounce-text">Happy Birthday, My Love ❤️</h1>
+            <button id="next-button-4" class="mt-16 px-6 py-3 bg-white text-black font-bold text-lg rounded-full opacity-0 transition-opacity duration-500">Open Your Gift →</button>
+        </div>
+        <div class="balloons-container">
+            <div class="balloon" style="left: 10%;"></div>
+            <div class="balloon" style="left: 30%;"></div>
+            <div class="balloon" style="left: 50%;"></div>
+            <div class="balloon" style="left: 70%;"></div>
+            <div class="balloon" style="left: 90%;"></div>
+        </div>
+    </div>
+
+    <!-- Scene 5: Surprise Animation Section -->
+    <div id="scene-5" class="scene bg-gray-800">
+        <div id="gift-box" class="gift-box">
+            <!-- Simple SVG for a gift box -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#E53935">
+                <path d="M19 8H5c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2c0-1.1-.9-2-2-2zm-2.18 5L15 11.18V10h-6v1.18L7.18 13H5v-2h2.18l1.82 1.82V12h6v1.82l1.82-1.82H19v2h-2z"/>
+                <path d="M12 11h-2v1.82L12 15.63V11zm2-1.82V11h-2v4.63l2-3.81z"/>
+                <path d="M12 15c-1.1 0-2-.9-2-2v-2h4v2c0 1.1-.9 2-2 2z"/>
+                <path d="M15 4c-1.1 0-2 .9-2 2h4c0-1.1-.9-2-2-2zM9 6c0-1.1-.9-2-2-2v2h2c0-1.1-.9-2-2-2zM12 1.95c-1.1 0-2 .9-2 2v2.05h4V3.95c0-1.1-.9-2-2-2z"/>
+                <rect x="11" y="5" width="2" height="6" fill="#FFC107"/>
+            </svg>
+        </div>
+        <p id="surprise-message" class="text-xl md:text-2xl mt-8 opacity-0 transition-opacity duration-1000">You make my world brighter every day 💕</p>
+    </div>
+
+    <!-- Scene 6: Final Scene -->
+    <div id="scene-6" class="scene bg-gray-900">
+        <div class="final-moon flex items-center justify-center p-8">
+            <p class="text-center text-gray-800 font-bold text-lg md:text-xl leading-relaxed">Forever yours, [Your Name] 💞</p>
+        </div>
+        <button id="final-surprise-button" class="mt-16 px-6 py-3 bg-pink-600 text-white font-bold text-lg rounded-full opacity-0 transition-opacity duration-500">Click here for a surprise 🎁</button>
+    </div>
+
+    <script>
+        // Set up the scene variables and audio
+        const scenes = ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5', 'scene-6'];
+        let currentScene = 0;
+        const audio = document.getElementById('background-music');
+
+        const herName = "Elara"; // Customize this
+        const yourName = "Leo"; // Customize this
+
+        // Array of photo data
+        const photos = [
+            { id: 1, url: "https://placehold.co/150x150/FFC0CB/000000?text=Us+at+the+park", caption: "Our First Coffee ☕" },
+            { id: 2, url: "https://placehold.co/150x150/D1B3FF/000000?text=Laughing+together", caption: "Our First Trip ✈️" },
+            { id: 3, url: "https://placehold.co/150x150/FFD700/000000?text=Making+memories", caption: "That One Rainy Day 🌧️" },
+            { id: 4, url: "https://placehold.co/150x150/FFC0CB/000000?text=Us+at+the+beach", caption: "Beach Day Fun 🏖️" },
+            { id: 5, url: "https://placehold.co/150x150/D1B3FF/000000?text=Just+the+two+of+us", caption: "Spontaneous Dinner ✨" },
+            { id: 6, url: "https://placehold.co/150x150/FFD700/000000?text=Holding+hands", caption: "The Day We Met 💖" },
+        ];
+
+        // Function to show a specific scene
+        const showScene = (sceneIndex) => {
+            document.getElementById(scenes[currentScene]).classList.remove('active');
+            currentScene = sceneIndex;
+            document.getElementById(scenes[currentScene]).classList.add('active');
+        };
+
+        // --- Scene 1: Landing Page Logic ---
+        window.onload = () => {
+            const landingText = document.getElementById('landing-text');
+            landingText.textContent = landingText.textContent.replace('[Her Name]', herName);
+            setTimeout(() => {
+                landingText.classList.remove('opacity-100');
+                landingText.classList.add('opacity-0');
+                setTimeout(() => {
+                    document.getElementById('start-button').classList.add('opacity-100');
+                }, 500);
+            }, 3000);
+        };
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            showScene(1);
+            setTimeout(startWelcomeAnimation, 1000);
+            audio.play().catch(e => console.log('Autoplay blocked:', e)); // Handle autoplay policy
+        });
+
+        // --- Scene 2: Welcome Animation Logic ---
+        const startWelcomeAnimation = () => {
+            const typingTextEl = document.getElementById('typing-text');
+            const welcomeMessage = `Happy Birthday, ${herName}!`;
+            let i = 0;
+            const typingInterval = setInterval(() => {
+                if (i < welcomeMessage.length) {
+                    const span = document.createElement('span');
+                    span.textContent = welcomeMessage.charAt(i);
+                    typingTextEl.appendChild(span);
+                    span.style.animationDelay = `${i * 0.1}s`;
+                    i++;
+                } else {
+                    clearInterval(typingInterval);
+                    setTimeout(() => {
+                        document.getElementById('next-button-2').classList.add('opacity-100');
+                    }, 1000);
+                }
+            }, 100);
+        };
+        document.getElementById('next-button-2').addEventListener('click', () => {
+            showScene(2);
+            setTimeout(loadPhotos, 500);
+        });
+
+        // --- Scene 3: Photo & Memory Section Logic ---
+        const loadPhotos = () => {
+            const container = document.querySelector('.heart-photo-container');
+            container.innerHTML = '';
+            photos.forEach(photo => {
+                const photoDiv = document.createElement('div');
+                photoDiv.classList.add('heart-photo');
+                photoDiv.style.backgroundImage = `url(${photo.url})`;
+
+                const captionSpan = document.createElement('span');
+                captionSpan.classList.add('photo-caption', 'text-sm', 'font-semibold');
+                captionSpan.textContent = photo.caption;
+                
+                photoDiv.appendChild(captionSpan);
+                container.appendChild(photoDiv);
+            });
+            setTimeout(() => {
+                document.getElementById('next-button-3').classList.add('opacity-100');
+            }, 1000);
+        };
+        document.getElementById('next-button-3').addEventListener('click', () => {
+            showScene(3);
+            setTimeout(() => {
+                document.getElementById('next-button-4').classList.add('opacity-100');
+            }, 1000);
+        });
+
+        // --- Scene 4: Birthday Message Section Logic ---
+        const fireworksCanvas = document.getElementById('fireworks-canvas');
+        const ctx = fireworksCanvas.getContext('2d');
+        let fireworks = [];
+        
+        const resizeCanvas = () => {
+            fireworksCanvas.width = window.innerWidth;
+            fireworksCanvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createFirework() {
+            const x = Math.random() * fireworksCanvas.width;
+            const y = Math.random() * fireworksCanvas.height;
+            const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            const particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.random() * 6 - 3,
+                    vy: Math.random() * 6 - 3,
+                    alpha: 1,
+                    color: color
+                });
+            }
+            fireworks.push({ particles: particles, time: Date.now() });
+        }
+
+        function updateFireworks() {
+            ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+            fireworks = fireworks.filter(f => Date.now() - f.time < 1000);
+            fireworks.forEach(f => {
+                f.particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.05;
+                    p.alpha -= 0.01;
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${parseInt(p.color.slice(5, 8))}, ${parseInt(p.color.slice(9, 12))}, ${parseInt(p.color.slice(13, 16))}, ${p.alpha})`;
+                    ctx.fill();
+                });
+            });
+            requestAnimationFrame(updateFireworks);
+        }
+        setInterval(createFirework, 1000);
+        updateFireworks();
+
+        document.getElementById('next-button-4').addEventListener('click', () => {
+            showScene(4);
+            setTimeout(setupGiftBox, 500);
+        });
+
+        // --- Scene 5: Surprise Animation Logic ---
+        const giftBox = document.getElementById('gift-box');
+        const surpriseMessage = document.getElementById('surprise-message');
+        const confettiContainer = document.getElementById('scene-5');
+
+        function setupGiftBox() {
+            giftBox.addEventListener('click', explodeGiftBox, { once: true });
+        }
+        function explodeGiftBox() {
+            giftBox.style.display = 'none';
+            createConfetti();
+            setTimeout(() => {
+                surpriseMessage.classList.add('opacity-100');
+                setTimeout(() => {
+                    document.getElementById('next-button-5').classList.add('opacity-100');
+                }, 1000);
+            }, 1000);
+        }
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `50%`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
+                confetti.style.animation = `confetti-fall ${2 + Math.random()}s forwards`;
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                confetti.style.transform += ` rotate(${Math.random() * 360}deg)`;
+                confettiContainer.appendChild(confetti);
+            }
+        }
+        // Custom CSS for confetti animation
+        const confettiStyle = document.createElement('style');
+        confettiStyle.innerHTML = `
+            @keyframes confetti-fall {
+                0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+                100% { transform: translateY(500px) rotate(720deg) scale(0.5); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(confettiStyle);
+
+        // This button is not in the original plan but a good practice to transition to next scene
+        const nextButton5 = document.createElement('button');
+        nextButton5.id = 'next-button-5';
+        nextButton5.className = 'mt-16 px-6 py-3 bg-white text-black font-bold text-lg rounded-full opacity-0 transition-opacity duration-500';
+        nextButton5.textContent = 'Final Surprise →';
+        document.getElementById('scene-5').appendChild(nextButton5);
+
+        document.getElementById('next-button-5').addEventListener('click', () => {
+            showScene(5);
+            setTimeout(startFinalScene, 500);
+        });
+
+        // --- Scene 6: Final Scene Logic ---
+        function startFinalScene() {
+            document.querySelector('.final-moon p').textContent = document.querySelector('.final-moon p').textContent.replace('[Your Name]', yourName);
+            createFireflies();
+            setTimeout(() => {
+                document.getElementById('final-surprise-button').classList.add('opacity-100');
+            }, 2000);
+        }
+
+        function createFireflies() {
+            for (let i = 0; i < 20; i++) {
+                const firefly = document.createElement('div');
+                firefly.classList.add('firefly');
+                firefly.style.left = `${Math.random() * 100}vw`;
+                firefly.style.top = `${Math.random() * 100}vh`;
+                firefly.style.setProperty('--rand-x', Math.random() * 200 - 100);
+                firefly.style.setProperty('--rand-y', Math.random() * 200 - 100);
+                document.getElementById('scene-6').appendChild(firefly);
+            }
+        }
+
+        document.getElementById('final-surprise-button').addEventListener('click', () => {
+            // Redirect to a secret page
+            window.location.href = "https://www.google.com"; // Change this URL
+        });
+
+    </script>
+</body>
+</html>
